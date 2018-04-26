@@ -206,7 +206,7 @@ if ! test -f _burro_complete; then
     autoreconf -vif
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	./configure CC=$CC CFLAGS="-g -O1" \
-		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a"	\
+		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a -liconv -lws2_32 -lintl"	\
 		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
 		    GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
 		    --disable-shared --enable-static \

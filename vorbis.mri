@@ -1,0 +1,5 @@
+create liboggvorbis.a
+addlib libvorbis.a
+addlib libogg.a
+save
+end

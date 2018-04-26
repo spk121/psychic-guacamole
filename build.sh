@@ -67,11 +67,18 @@ else
     fi    
 fi
 
+if ! test -f libogg-1.3.3.tar; then
+    wget https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.3.tar.xz
+    unxz libogg-1.3.3.tar.xz
+    tar xf libogg-1.3.3.tar
+fi
+
 if ! test -f libvorbis-1.3.6.tar; then
     wget https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.6.tar.xz
     unxz libvorbis-1.3.6.tar.xz
     tar xf libvorbis-1.3.6.tar
 fi
+
 if ! test -f burro-master.zip; then
     wget https://github.com/spk121/burro/archive/master.zip
     mv master.zip burro-master.zip
@@ -167,26 +174,51 @@ if ! test -f _guile_complete; then
     echo > _guile_complete
 fi
 
+if ! test -f _libogg_complete; then
+    cd libogg-1.3.3
+    ./configure CC=$CC CFLAGS="-g -O1" \
+		--disable-shared --enable-static --prefix=$PREFIX
+    make
+    make install
+    cd $PREFIX
+    echo > _libogg_complete
+fi
 
 if ! test -f _libvorbis_complete; then
     cd libvorbis-1.3.6
-    ./configure CC=$CC CFLAGS="-g -O1" --disable-shared --enable-static --prefix=$PREFIX
+    ./configure CC=$CC CFLAGS="-g -O1" \
+		OGG_CFLAGS=-I$PREFIX/include \
+		OGG_LIBS=$PREFIX/lib/libogg.a \
+		--disable-shared --enable-static --prefix=$PREFIX
     make
     make install
     cd $PREFIX
     echo > _libvorbis_complete
 fi
 
+# Merge Ogg and Vorbis
+cd lib
+ar -M < ../vorbis.mri
+cd $PREFIX
+
 if ! test -f _burro_complete; then
     cd burro-master
     autoreconf -vif
-    ./configure CC=$CC CFLAGS="-g -O1" \
-		LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/libvorbis.a"	\
-		GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
-		GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
-		--disable-shared --enable-static \
-		--with-libpulse \
-		--prefix=$PREFIX
+    if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+	./configure CC=$CC CFLAGS="-g -O1" \
+		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a"	\
+		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
+		    GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
+		    --disable-shared --enable-static \
+		    --prefix=$PREFIX
+    else
+	./configure CC=$CC CFLAGS="-g -O1" \
+		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a -ldl -lcrypt"	\
+		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
+		    GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
+		    --disable-shared --enable-static \
+		    --prefix=$PREFIX
+    fi
     make
     make install
     cd $PREFIX

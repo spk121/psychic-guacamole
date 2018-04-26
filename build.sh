@@ -154,6 +154,7 @@ if ! test -f _guile_complete; then
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	cd guile-d5b48cb0395175db8a04875269f3284c90c0d436
 	autoreconf -vif
+	patch -Np0 < ../guile-mingw.patch
     else
 	cd guile-2.2.3
     fi
@@ -169,6 +170,7 @@ if ! test -f _guile_complete; then
 		--prefix=$PREFIX
     cat config.h | grep -v HAVE_CLOCK_ > config.h.tmp
     cp config.h.tmp config.h
+    patch -Np0 < readline-7.0-mingw.patch
     make install
     cd $PREFIX
     echo > _guile_complete

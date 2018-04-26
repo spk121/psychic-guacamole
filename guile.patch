@@ -1,0 +1,28 @@
+diff --git a/module/ice-9/sandbox.scm b/module/ice-9/sandbox.scm
+index d25dc2d66..4de7aa26f 100644
+--- a/module/ice-9/sandbox.scm
++++ b/module/ice-9/sandbox.scm
+@@ -95,21 +95,9 @@ handler."
+     (call-with-prompt tag
+       (lambda ()
+         (dynamic-wind
+-          (lambda ()
+-            (set! prev-sigalarm-handler
+-              (sigaction SIGALRM (lambda (sig)
+-                                   ;; If signal handling is delayed
+-                                   ;; until after prompt, no worries;
+-                                   ;; the success path won the race.
+-                                   (false-if-exception
+-                                    (abort-to-prompt tag)))))
+-            (setitimer ITIMER_REAL 0 0 0 limit-usecs))
++          (lambda () #f)
+           thunk
+-          (lambda ()
+-            (setitimer ITIMER_REAL 0 0 0 0)
+-            (match prev-sigalarm-handler
+-              ((handler . flags)
+-               (sigaction SIGALRM handler flags))))))
++          (lambda () #f)))
+       (lambda (k)
+         (limit-reached)))))
+ 

@@ -208,21 +208,90 @@ if ! test -f _burro_complete; then
     autoreconf -vif
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 	./configure CC=$CC CFLAGS="-g -O1" \
+		    CPPFLAGS="-DRELATIVE_PATHS" \
 		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a -liconv -lws2_32 -lintl"	\
 		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
 		    GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
 		    --disable-shared --enable-static \
-		    --prefix=$PREFIX
+		    --prefix=$PREFIX \
+		    --with-guilesitedir=$PREFIX/share/guile/site/2.2
     else
 	./configure CC=$CC CFLAGS="-g -O1" \
+		    CPPFLAGS="-DRELATIVE_PATHS" \
 		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a -ldl -lcrypt"	\
 		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
 		    GUILE_LIBS=$PREFIX/lib/libguile-2.2.a \
 		    --disable-shared --enable-static \
-		    --prefix=$PREFIX
+		    --prefix=$PREFIX \
+		    --with-guilesitedir=$PREFIX/share/guile/site/2.2
+		    
     fi
     make
     make install
     cd $PREFIX
     echo > _burro_complete
+fi
+
+# Finally, prepare the final package
+if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    mkdir fancy-free
+    cp bin/burro-engine.exe fancy-free/fancy-free.exe
+    cp c:/msys64/mingw32/bin/libwinpthread-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libcairo-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgdk-3-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgtk-3-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgio-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgdk_pixbuf-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libglib-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgobject-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libiconv-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libintl-8.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpango-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangocairo-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libvorbisfile-3.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgcc_s_dw2-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfreetype-6.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfontconfig-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpixman-1-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpng16-16.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgmodule-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/zlib1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libffi-6.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpcre-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libcairo-gobject-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libepoxy-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfribidi-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangoft2-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangowin32-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libvorbis-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libogg-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libbz2-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libexpat-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libharfbuzz-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgraphite2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libatk-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libstdc++-6.dll fancy-free
+    cp -pR bin fancy-free/bin
+    cp -pR share fancy-free/share
+    cp -pR lib fancy-free/lib
+    mkdir fancy-free/share
+    mkdir fancy-free/share/icons
+    mkdir fancy-free/share/icons/Adwaita
+    mkdir fancy-free/share/icons/Adwaita/16x16
+    mkdir fancy-free/share/icons/Adwaita/22x22
+    mkdir fancy-free/share/icons/Adwaita/24x24
+    mkdir fancy-free/share/icons/hicolor
+    cp -pR c:/msys64/mingw32/share/icons/hicolor fancy-free/share/icons
+    cp -p  c:/msys64/mingw32/share/icons/Adwaita/index.theme fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/16x16 fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/22x22 fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/24x24 fancy-free/share/icons/Adwaita
+    gtk-update-icon-cache fancy-free/share/icons/hicolor
+    gtk-update-icon-cache fancy-free/share/icons/Adwaita
+    cp -pR C:/msys64/mingw32/lib/gdk-pixbuf-2.0 fancy-free/lib
+    GDK_PIXBUF_MODULEDIR=fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    mkdir fancy-free/share/glib-2.0
+    cp -pR c:/msys64/mingw32/share/glib-2.0/schemas fancy-free/share/glib-2.0
+else
+    echo "hi"
 fi

@@ -64,7 +64,7 @@ else
 	lzip -d guile-2.2.3.tar.lz
 	mv guile-2.2.3.tar guile.tar
 	tar xf guile.tar
-    fi    
+    fi
 fi
 
 if ! test -f libogg-1.3.3.tar; then
@@ -142,7 +142,7 @@ if ! test -f _readline_complete; then
     cp readline-7.0/histfile.c readline-7.0/histfile.c.orig
     patch -Np0 < readline-7.0-mingw.patch
     cd readline-7.0
-    
+
     ./configure CC=$CC CFLAGS="-g -O1" --disable-shared --enable-static --prefix=$PREFIX
     make
     make install
@@ -224,7 +224,7 @@ if ! test -f _burro_complete; then
 		    --disable-shared --enable-static \
 		    --prefix=$PREFIX \
 		    --with-guilesitedir=$PREFIX/share/guile/site/2.2
-		    
+
     fi
     make
     make install
@@ -287,10 +287,18 @@ if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     cp -pR c:/msys64/mingw32/share/icons/Adwaita/22x22 fancy-free/share/icons/Adwaita
     cp -pR c:/msys64/mingw32/share/icons/Adwaita/24x24 fancy-free/share/icons/Adwaita
     cp -pR c:/msys64/mingw32/share/icons/Adwaita/48x48 fancy-free/share/icons/Adwaita
-    gtk-update-icon-cache fancy-free/share/icons/hicolor
-    gtk-update-icon-cache fancy-free/share/icons/Adwaita
+
+    cd fancy-free
+    gtk-update-icon-cache-3.0 share/icons/hicolor
+    gtk-update-icon-cache-3.0 share/icons/Adwaita
+    cd ..
+
     cp -pR C:/msys64/mingw32/lib/gdk-pixbuf-2.0 fancy-free/lib
-    GDK_PIXBUF_MODULEDIR=fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+
+    cd fancy-free
+    GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    cd ..
+
     mkdir fancy-free/share/glib-2.0
     cp -pR c:/msys64/mingw32/share/glib-2.0/schemas fancy-free/share/glib-2.0
 else

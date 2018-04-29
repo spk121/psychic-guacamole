@@ -207,7 +207,7 @@ if ! test -f _burro_complete; then
     cd burro-master
     autoreconf -vif
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-	./configure CC=$CC CFLAGS="-g -O1 -mwindows" \
+	./configure CC=$CC CFLAGS="-g -O1" \
 		    CPPFLAGS="-DRELATIVE_PATHS" \
 		    LIBS="$PREFIX/lib/libguile-2.2.a $PREFIX/lib/gc.a $PREFIX/lib/libffi.a $PREFIX/lib/libgmp.a $PREFIX/lib/libltdl.a $PREFIX/lib/libunistring.a $PREFIX/lib/libreadline.a $PREFIX/lib/liboggvorbis.a -liconv -lws2_32 -lintl"	\
 		    GUILE_CFLAGS=-I$PREFIX/include/guile/2.2 \
@@ -273,19 +273,24 @@ if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     cp c:/msys64/mingw32/bin/libstdc++-6.dll fancy-free
     cp -pR bin fancy-free/bin
     cp -pR share fancy-free/share
+    rm -r fancy-free/share/aclocal
+    rm -r fancy-free/share/doc
+    rm -r fancy-free/share/info
+    rm -r fancy-free/share/man
+    rm -r fancy-free/share/readline
     cp -pR lib fancy-free/lib
     mkdir fancy-free/share
     mkdir fancy-free/share/icons
     mkdir fancy-free/share/icons/Adwaita
-    mkdir fancy-free/share/icons/Adwaita/16x16
-    mkdir fancy-free/share/icons/Adwaita/22x22
-    mkdir fancy-free/share/icons/Adwaita/24x24
+    #mkdir fancy-free/share/icons/Adwaita/16x16
+    #mkdir fancy-free/share/icons/Adwaita/22x22
+    mkdir fancy-free/share/icons/Adwaita/48x48
     mkdir fancy-free/share/icons/hicolor
     cp -pR c:/msys64/mingw32/share/icons/hicolor fancy-free/share/icons
     cp -p  c:/msys64/mingw32/share/icons/Adwaita/index.theme fancy-free/share/icons/Adwaita
-    cp -pR c:/msys64/mingw32/share/icons/Adwaita/16x16 fancy-free/share/icons/Adwaita
-    cp -pR c:/msys64/mingw32/share/icons/Adwaita/22x22 fancy-free/share/icons/Adwaita
-    cp -pR c:/msys64/mingw32/share/icons/Adwaita/24x24 fancy-free/share/icons/Adwaita
+    #cp -pR c:/msys64/mingw32/share/icons/Adwaita/16x16 fancy-free/share/icons/Adwaita
+    #cp -pR c:/msys64/mingw32/share/icons/Adwaita/22x22 fancy-free/share/icons/Adwaita
+    #cp -pR c:/msys64/mingw32/share/icons/Adwaita/24x24 fancy-free/share/icons/Adwaita
     cp -pR c:/msys64/mingw32/share/icons/Adwaita/48x48 fancy-free/share/icons/Adwaita
 
     cd fancy-free

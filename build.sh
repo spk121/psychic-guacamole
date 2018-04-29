@@ -53,9 +53,9 @@ fi
 
 if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     if ! test -f guile.tar; then
-	wget http://git.savannah.gnu.org/cgit/guile.git/snapshot/guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar.gz
-	gunzip guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar.gz
-	mv guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar guile.tar
+	wget http://git.savannah.gnu.org/cgit/guile.git/snapshot/guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar.gz
+	gunzip guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar.gz
+	mv guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar guile.tar
 	tar xf guile.tar
     fi
 else
@@ -152,7 +152,7 @@ fi
 
 if ! test -f _guile_complete; then
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-	cd guile-d5b48cb0395175db8a04875269f3284c90c0d436
+	cd guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a
 	autoreconf -vif
 	patch -Np0 < ../guile-mingw.patch
     else
@@ -234,47 +234,65 @@ fi
 
 # Finally, prepare the final package
 if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-cp bin/burro-engine.exe burro-engine.exe
-cp c:/msys64/mingw32/bin/libwinpthread-1.dll .
-cp c:/msys64/mingw32/bin/libcairo-2.dll .
-cp c:/msys64/mingw32/bin/libgdk-3-0.dll .
-cp c:/msys64/mingw32/bin/libgtk-3-0.dll .
-cp c:/msys64/mingw32/bin/libgio-2.0-0.dll .
-cp c:/msys64/mingw32/bin/libgdk_pixbuf-2.0-0.dll .
-cp c:/msys64/mingw32/bin/libglib-2.0-0.dll .
-cp c:/msys64/mingw32/bin/libgobject-2.0-0.dll .
-cp c:/msys64/mingw32/bin/libiconv-2.dll .
-cp c:/msys64/mingw32/bin/libintl-8.dll .
-cp c:/msys64/mingw32/bin/libpango-1.0-0.dll .
-cp c:/msys64/mingw32/bin/libpangocairo-1.0-0.dll .
-cp c:/msys64/mingw32/bin/libvorbisfile-3.dll .
-cp c:/msys64/mingw32/bin/libgcc_s_dw2-1.dll .
-cp c:/msys64/mingw32/bin/libfreetype-6.dll .
-cp c:/msys64/mingw32/bin/libfontconfig-1.dll .
-cp c:/msys64/mingw32/bin/libpixman-1-0.dll .
-cp c:/msys64/mingw32/bin/libpng16-16.dll .
-cp c:/msys64/mingw32/bin/libgmodule-2.0-0.dll .
-cp c:/msys64/mingw32/bin/zlib1.dll .
-cp c:/msys64/mingw32/bin/libffi-6.dll .
-cp c:/msys64/mingw32/bin/libpcre-1.dll .
-cp c:/msys64/mingw32/bin/libcairo-gobject-2.dll .
-cp c:/msys64/mingw32/bin/libepoxy-0.dll .
-cp c:/msys64/mingw32/bin/libfribidi-0.dll .
-cp c:/msys64/mingw32/bin/libpangoft2-1.0-0.dll .
-cp c:/msys64/mingw32/bin/libpangowin32-1.0-0.dll .
-cp c:/msys64/mingw32/bin/libvorbis-0.dll .
-cp c:/msys64/mingw32/bin/libogg-0.dll .
-cp c:/msys64/mingw32/bin/libbz2-1.dll .
-cp c:/msys64/mingw32/bin/libexpat-1.dll .
-cp c:/msys64/mingw32/bin/libharfbuzz-0.dll .
-cp c:/msys64/mingw32/bin/libgraphite2.dll .
-cp c:/msys64/mingw32/bin/libatk-1.0-0.dll .
-cp c:/msys64/mingw32/bin/libstdc++-6.dll .
-#cp -pR c:/msys64/mingw32/share/icons/* share/icons
-cp -pR C:/msys64/mingw32/lib/gdk-pixbuf-2.0 lib
-GDK_PIXBUF_MODULEDIR=lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
--mkdir share/glib-2.0
-cp -pR c:/msys64/mingw32/share/glib-2.0/schemas share/glib-2.0
+    mkdir fancy-free
+    cp bin/burro-engine.exe fancy-free/fancy-free.exe
+    cp c:/msys64/mingw32/bin/libwinpthread-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libcairo-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgdk-3-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgtk-3-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgio-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgdk_pixbuf-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libglib-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgobject-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libiconv-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libintl-8.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpango-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangocairo-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libvorbisfile-3.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgcc_s_dw2-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfreetype-6.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfontconfig-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpixman-1-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpng16-16.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgmodule-2.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/zlib1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libffi-6.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpcre-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libcairo-gobject-2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libepoxy-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libfribidi-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangoft2-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libpangowin32-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libvorbis-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libogg-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libbz2-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libexpat-1.dll fancy-free
+    cp c:/msys64/mingw32/bin/libharfbuzz-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libgraphite2.dll fancy-free
+    cp c:/msys64/mingw32/bin/libatk-1.0-0.dll fancy-free
+    cp c:/msys64/mingw32/bin/libstdc++-6.dll fancy-free
+    cp -pR bin fancy-free/bin
+    cp -pR share fancy-free/share
+    cp -pR lib fancy-free/lib
+    mkdir fancy-free/share
+    mkdir fancy-free/share/icons
+    mkdir fancy-free/share/icons/Adwaita
+    mkdir fancy-free/share/icons/Adwaita/16x16
+    mkdir fancy-free/share/icons/Adwaita/22x22
+    mkdir fancy-free/share/icons/Adwaita/24x24
+    mkdir fancy-free/share/icons/hicolor
+    cp -pR c:/msys64/mingw32/share/icons/hicolor fancy-free/share/icons
+    cp -p  c:/msys64/mingw32/share/icons/Adwaita/index.theme fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/16x16 fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/22x22 fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/24x24 fancy-free/share/icons/Adwaita
+    cp -pR c:/msys64/mingw32/share/icons/Adwaita/48x48 fancy-free/share/icons/Adwaita
+    gtk-update-icon-cache fancy-free/share/icons/hicolor
+    gtk-update-icon-cache fancy-free/share/icons/Adwaita
+    cp -pR C:/msys64/mingw32/lib/gdk-pixbuf-2.0 fancy-free/lib
+    GDK_PIXBUF_MODULEDIR=fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders > fancy-free/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    mkdir fancy-free/share/glib-2.0
+    cp -pR c:/msys64/mingw32/share/glib-2.0/schemas fancy-free/share/glib-2.0
 else
     echo "hi"
 fi

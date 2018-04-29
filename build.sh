@@ -53,9 +53,9 @@ fi
 
 if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     if ! test -f guile.tar; then
-	wget http://git.savannah.gnu.org/cgit/guile.git/snapshot/guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar.gz
-	gunzip guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar.gz
-	mv guile-d5b48cb0395175db8a04875269f3284c90c0d436.tar guile.tar
+	wget http://git.savannah.gnu.org/cgit/guile.git/snapshot/guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar.gz
+	gunzip guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar.gz
+	mv guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a.tar guile.tar
 	tar xf guile.tar
     fi
 else
@@ -152,7 +152,7 @@ fi
 
 if ! test -f _guile_complete; then
     if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-	cd guile-d5b48cb0395175db8a04875269f3284c90c0d436
+	cd guile-6d6bc013e1f9db98334e1212295b8be0e39fbf0a
 	autoreconf -vif
 	patch -Np0 < ../guile-mingw.patch
     else

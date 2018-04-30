@@ -307,5 +307,23 @@ if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     mkdir fancy-free/share/glib-2.0
     cp -pR c:/msys64/mingw32/share/glib-2.0/schemas fancy-free/share/glib-2.0
 else
-    echo "hi"
+
+    mkdir fancy-free
+    cp bin/burro-engine fancy-free/fancy-free
+    cp -pR bin fancy-free/bin
+    cp -pR share fancy-free/share
+    rm -r fancy-free/share/aclocal
+    rm -r fancy-free/share/doc
+    rm -r fancy-free/share/info
+    rm -r fancy-free/share/man
+    rm -r fancy-free/share/readline
+    cp -pR lib fancy-free/lib
+    mkdir fancy-free/share
+    mkdir fancy-free/share/icons
+    mkdir fancy-free/share/icons/hicolor
+    cp -pR c:/msys64/mingw32/share/icons/hicolor fancy-free/share/icons
+
+    cd fancy-free
+    gtk-update-icon-cache-3.0 share/icons/hicolor
+    cd ..
 fi

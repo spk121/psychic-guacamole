@@ -324,6 +324,6 @@ else
     cp -pR c:/msys64/mingw32/share/icons/hicolor fancy-free/share/icons
 
     cd fancy-free
-    gtk-update-icon-cache-3.0 share/icons/hicolor
+    gtk-update-icon-cache share/icons/hicolor
     cd ..
 fi
